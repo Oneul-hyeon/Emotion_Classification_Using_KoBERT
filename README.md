@@ -33,7 +33,7 @@ Follow the below method in anaconda terminal.
 Clone this repository:
 
 ```
-git clone https://github.com/toy-f-rebellion/toy_ai.git
+git clone https://github.com/Oneul-hyeon/Emotion_Classification_Using_KoBERT.git
 cd {location of that folder}
 ```
 
