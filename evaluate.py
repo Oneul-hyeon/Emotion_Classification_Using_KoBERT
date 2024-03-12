@@ -16,34 +16,9 @@ from bert_utils import BERTClassifier, BERTDataset
 # koBERT
 from kobert.utils import get_tokenizer
 from kobert.pytorch_kobert import get_pytorch_kobert_model
-
-# Transformers
-from transformers import AdamW
-from transformers.optimization import get_cosine_schedule_with_warmup
-
-device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
-
-# KoBERT로부터 model, vocabulary 불러오기
-bertmodel, vocab = get_pytorch_kobert_model()
-
-# 모델 경로 지정
-model_path = 'model_all.pth'
-model = torch.load(model_path)
-
-max_len = 64
-batch_size = 32
-output = {0 : 'angry',
-          1 : 'sadness',
-          2 : 'fear',
-          3 : 'disgust',
-          4 : 'neutral',
-          5 : 'happiness',
-          6 : 'surprise'}
-
+ 
 # 모델 출력 함수
 def emotion_predict(text) :
-  # 맞춤법 및 이모티콘 교정
-#   text = correct_spelling(text)
   # KoBERT 모델의 입력 데이터 생성
   data = [text, '0']
   dataset = [data]
@@ -70,3 +45,22 @@ def emotion_predict(text) :
           logits = logits.detach().cpu().numpy()
 
       return output[np.argmax(logits)]
+
+device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+
+# KoBERT로부터 model, vocabulary 불러오기
+bertmodel, vocab = get_pytorch_kobert_model()
+
+# 모델 경로 지정
+model_path = 'model.pth'
+model = torch.load(model_path)
+
+max_len = 64
+batch_size = 64
+output = {0 : 'angry',
+          1 : 'sadness',
+          2 : 'fear',
+          3 : 'disgust',
+          4 : 'neutral',
+          5 : 'happiness',
+          6 : 'surprise'}

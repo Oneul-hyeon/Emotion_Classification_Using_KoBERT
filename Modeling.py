@@ -9,15 +9,12 @@ from torch.utils.data import Dataset, DataLoader
 import gluonnlp as nlp
 import numpy as np
 from tqdm import tqdm
-import pandas as pd
 import pickle
 
 from kobert.utils import get_tokenizer
 from kobert.pytorch_kobert import get_pytorch_kobert_model
 from transformers import AdamW
 from transformers.optimization import get_cosine_schedule_with_warmup
-
-from sklearn.metrics import f1_score, accuracy_score, confusion_matrix
 
 # BERT Dataset
 class BERTDataset(Dataset):
@@ -153,8 +150,6 @@ scheduler = get_cosine_schedule_with_warmup(optimizer, num_warmup_steps=warmup_s
 
 train_acc_history=[]
 test_acc_history=[]
-train_loss_history=[]
-test_loss_history=[]
 
 early_stopping = EarlyStopping(patience=5, verbose=True) # EarlyStopping 적용
 
@@ -176,7 +171,6 @@ for e in range(num_epochs):
         scheduler.step()
         train_acc += calc_accuracy(out, label)
 
-    train_loss_history.append(loss.data.cpu().numpy())
     print("epoch {} train acc {}".format(e+1, train_acc / (batch_id+1)))
     train_acc_history.append(train_acc / (batch_id+1))
 
@@ -195,7 +189,6 @@ for e in range(num_epochs):
     epoch_test_loss = loss.item()
     val_loss = loss_fn(out, label).data.cpu().numpy()
     test_acc_history.append(test_acc / (batch_id+1))
-    test_loss_history.append(loss_fn(out, label).data.cpu().numpy())
     early_stopping(val_loss, model)
 
     if early_stopping.early_stop:
@@ -205,13 +198,4 @@ for e in range(num_epochs):
 # Load Best Model
 model.load_state_dict(torch.load("checkpoint.pt"))
 # Model save
-torch.save(model, '/mnt/data3/emotion_classification/model_all.pth')
-# Loss save
-with open('/mnt/data3/emotion_classification/train_loss_history.pkl', 'wb') as f:
-    pickle.dump(train_loss_history, f)
-with open('/mnt/data3/emotion_classification/test_loss_history.pkl', 'wb') as f:
-    pickle.dump(test_loss_history, f)
-with open('/mnt/data3/emotion_classification/train_acc_history.pkl', 'wb') as f:
-    pickle.dump(train_acc_history, f)
-with open('/mnt/data3/emotion_classification/test_acc_history.pkl', 'wb') as f:
-    pickle.dump(test_acc_history, f)
+torch.save(model, '/mnt/data3/emotion_classification/model.pth')
