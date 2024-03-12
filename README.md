@@ -47,9 +47,10 @@ pip install -r requirements.txt
 
 And we need to resolve the compatibility issue between PyTorch and CUDA.
 
-'''
+```
 conda install pytorch==1.13.0 pytorch-cuda=11.6 -c pytorch -c nvidia
-'''
+
+```
 
 This file is the overall library and package installation file of the AI part of this project.
 
