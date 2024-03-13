@@ -6,6 +6,7 @@ sentencepiece == 0.1.96
 transformers
 tqdm
 pandas
+scikit-learn
 numpy == 1.21
 gradio
 git+https://github.com/Oneul-hyeon/Modified-KoBERT.git#egg=kobert_tokenizer&subdirectory=kobert_hf
