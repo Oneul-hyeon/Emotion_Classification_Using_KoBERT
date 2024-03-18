@@ -1,4 +1,4 @@
-# Emotion Classification Using KoBERT
+# KoBERT Based Emotion Classification
 This project was carried out in vscode.
 
 If you want to proceed with this project as a whole, proceed with the preprocessing process in the Dataset folder first.
